@@ -3,15 +3,32 @@ import { Card } from "@/components/ui/card";
 import { MapPin, Search, MessageSquare, Star, Plus } from "lucide-react";
 import { useLocation } from "wouter";
 import MobileLayout from "@/components/MobileLayout";
+import HomeDesktop from "./HomeDesktop";
+import { useEffect, useState } from "react";
 
 /**
  * Design: Modern & Accessible
  * Hero section with search bar, featured providers, and action buttons
  * Optimized for iPhone display with tab navigation
+ * Desktop version with multi-column layout
  */
 
 export default function Home() {
   const [, navigate] = useLocation();
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  if (isDesktop) {
+    return <HomeDesktop />;
+  }
 
   const featuredProviders = [
     {

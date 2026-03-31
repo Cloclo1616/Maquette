@@ -2,16 +2,32 @@ import { Card } from "@/components/ui/card";
 import { Search, MoreVertical } from "lucide-react";
 import { useLocation } from "wouter";
 import MobileLayout from "@/components/MobileLayout";
-import { useState } from "react";
+import MessagesDesktop from "./MessagesDesktop";
+import { useState, useEffect } from "react";
 
 /**
  * Design: Modern & Accessible
  * Messages list with conversation preview
+ * Responsive for both mobile and desktop
  */
 
 export default function Messages() {
   const [, navigate] = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  if (isDesktop) {
+    return <MessagesDesktop />;
+  }
 
   const conversations = [
     {

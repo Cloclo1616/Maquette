@@ -3,17 +3,33 @@ import { Card } from "@/components/ui/card";
 import { MapPin, Search, Filter, Star, ChevronLeft } from "lucide-react";
 import { useLocation } from "wouter";
 import MobileLayout from "@/components/MobileLayout";
-import { useState } from "react";
+import SearchDesktop from "./SearchDesktop";
+import { useState, useEffect } from "react";
 
 /**
  * Design: Modern & Accessible
- * Search results with filtering and provider cards
+ * Search results with filtering and provider listings
+ * Responsive for both mobile and desktop
  */
 
 export default function SearchPage() {
   const [, navigate] = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  if (isDesktop) {
+    return <SearchDesktop />;
+  }
 
   const providers = [
     {

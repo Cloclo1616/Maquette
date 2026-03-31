@@ -11,13 +11,14 @@ import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
 import ProviderProfile from "./pages/ProviderProfile";
 import ChatDetail from "./pages/ChatDetail";
+import { useState, useEffect } from "react";
 
 /**
  * Design Philosophy: Modern & Accessible
+ * - Responsive design that adapts between mobile (tab bar) and desktop (sidebar)
  * - Teal primary color (#0D9488) for trust and action
  * - Clean white background (#FAFAFA) for clarity
  * - Poppins + Inter typography for hierarchy
- * - Mobile-first tab navigation at bottom
  */
 
 function Router() {
@@ -38,12 +39,30 @@ function Router() {
 }
 
 function App() {
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <div className={isDesktop ? "lg:block hidden" : "lg:hidden block"}>
+            <Router />
+          </div>
+          {isDesktop && (
+            <div className="hidden lg:block">
+              <Router />
+            </div>
+          )}
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
