@@ -4,30 +4,29 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
-import Search from "./pages/Search";
+import HomeDesktop from "./pages/HomeDesktop";
+import SearchDesktop from "./pages/SearchDesktop";
 import CreateRequest from "./pages/CreateRequest";
-import Messages from "./pages/Messages";
+import MessagesDesktop from "./pages/MessagesDesktop";
 import Profile from "./pages/Profile";
 import ProviderProfile from "./pages/ProviderProfile";
 import ChatDetail from "./pages/ChatDetail";
-import { useState, useEffect } from "react";
 
 /**
- * Design Philosophy: Modern & Accessible
- * - Responsive design that adapts between mobile (tab bar) and desktop (sidebar)
- * - Teal primary color (#0D9488) for trust and action
- * - Clean white background (#FAFAFA) for clarity
- * - Poppins + Inter typography for hierarchy
+ * Design Philosophy: Modern & Accessible - Desktop Only
+ * - Sidebar navigation persistante
+ * - Teal primary color (#0D9488) pour confiance et action
+ * - Multi-column layouts optimisés pour écrans larges
+ * - Poppins + Inter typography pour hiérarchie
  */
 
 function Router() {
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/search"} component={Search} />
+      <Route path={"/"} component={HomeDesktop} />
+      <Route path={"/search"} component={SearchDesktop} />
       <Route path={"/create-request"} component={CreateRequest} />
-      <Route path={"/messages"} component={Messages} />
+      <Route path={"/messages"} component={MessagesDesktop} />
       <Route path={"/messages/:id"} component={ChatDetail} />
       <Route path={"/profile"} component={Profile} />
       <Route path={"/provider/:id"} component={ProviderProfile} />
@@ -39,30 +38,12 @@ function Router() {
 }
 
 function App() {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <div className={isDesktop ? "lg:block hidden" : "lg:hidden block"}>
-            <Router />
-          </div>
-          {isDesktop && (
-            <div className="hidden lg:block">
-              <Router />
-            </div>
-          )}
+          <Router />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

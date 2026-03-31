@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Send, Paperclip, Smile } from "lucide-react";
+import { Send, Paperclip, Smile } from "lucide-react";
 import { useLocation } from "wouter";
-import MobileLayout from "@/components/MobileLayout";
+import DesktopLayout from "@/components/DesktopLayout";
 import { useState } from "react";
 
 /**
- * Design: Modern & Accessible
+ * Design: Modern & Accessible - Desktop Only
  * Chat conversation interface
  */
 
@@ -72,39 +72,38 @@ export default function ChatDetail() {
   };
 
   return (
-    <MobileLayout activeTab="messages">
-      <div className="pb-20 flex flex-col h-screen">
-        {/* Header */}
-        <div className="bg-white border-b border-border sticky top-0 z-10 p-4 flex items-center gap-3">
-          <button
-            onClick={() => navigate("/messages")}
-            className="p-2 hover:bg-gray-100 rounded-lg transition"
-          >
-            <ChevronLeft size={20} className="text-foreground" />
-          </button>
-          <div className="flex-1">
-            <h1 className="text-lg font-bold text-foreground">Sarah Collins</h1>
-            <p className="text-xs text-green-600">Online now</p>
+    <DesktopLayout activeTab="messages">
+      <div className="p-8 h-screen flex flex-col">
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Sarah Collins</h1>
+            <p className="text-muted-foreground mt-1">Online now</p>
           </div>
+          <Button
+            onClick={() => navigate("/messages")}
+            className="bg-white border border-border text-foreground hover:bg-gray-50 transition"
+          >
+            ← Back to Messages
+          </Button>
         </div>
 
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        {/* Messages Container */}
+        <div className="flex-1 overflow-y-auto p-6 bg-gray-50 rounded-lg mb-6 space-y-4">
           {messages.map((message) => (
             <div
               key={message.id}
               className={`flex ${message.isOwn ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-xs px-4 py-2 rounded-lg ${
+                className={`max-w-lg px-6 py-3 rounded-lg ${
                   message.isOwn
                     ? "bg-primary text-white rounded-br-none"
-                    : "bg-gray-100 text-foreground rounded-bl-none"
+                    : "bg-white text-foreground rounded-bl-none border border-border"
                 }`}
               >
-                <p className="text-sm">{message.text}</p>
+                <p className="text-base">{message.text}</p>
                 <p
-                  className={`text-xs mt-1 ${
+                  className={`text-xs mt-2 ${
                     message.isOwn ? "text-teal-100" : "text-muted-foreground"
                   }`}
                 >
@@ -116,37 +115,35 @@ export default function ChatDetail() {
         </div>
 
         {/* Input Area */}
-        <div className="bg-white border-t border-border p-4 sticky bottom-0">
-          <div className="flex gap-2 items-end">
-            <button className="p-2 hover:bg-gray-100 rounded-lg transition text-muted-foreground">
-              <Paperclip size={20} />
-            </button>
-            <div className="flex-1 flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
-              <input
-                type="text"
-                placeholder="Type a message..."
-                value={messageText}
-                onChange={(e) => setMessageText(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    handleSendMessage();
-                  }
-                }}
-                className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground"
-              />
-              <button className="p-1 hover:bg-gray-200 rounded transition text-muted-foreground">
-                <Smile size={18} />
-              </button>
-            </div>
-            <button
-              onClick={handleSendMessage}
-              className="p-2 bg-primary text-white rounded-lg hover:bg-teal-700 transition"
-            >
-              <Send size={20} />
+        <div className="flex gap-3 items-end">
+          <button className="p-3 hover:bg-gray-100 rounded-lg transition text-muted-foreground">
+            <Paperclip size={20} />
+          </button>
+          <div className="flex-1 flex items-center gap-3 bg-gray-100 rounded-lg px-4 py-3">
+            <input
+              type="text"
+              placeholder="Type a message..."
+              value={messageText}
+              onChange={(e) => setMessageText(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleSendMessage();
+                }
+              }}
+              className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground"
+            />
+            <button className="p-2 hover:bg-gray-200 rounded transition text-muted-foreground">
+              <Smile size={20} />
             </button>
           </div>
+          <button
+            onClick={handleSendMessage}
+            className="p-3 bg-primary text-white rounded-lg hover:bg-teal-700 transition"
+          >
+            <Send size={20} />
+          </button>
         </div>
       </div>
-    </MobileLayout>
+    </DesktopLayout>
   );
 }

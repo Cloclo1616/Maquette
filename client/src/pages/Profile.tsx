@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ChevronRight, LogOut, Settings, Bell, Shield, HelpCircle } from "lucide-react";
+import { LogOut, Settings, Bell, Shield, HelpCircle } from "lucide-react";
 import { useLocation } from "wouter";
-import MobileLayout from "@/components/MobileLayout";
+import DesktopLayout from "@/components/DesktopLayout";
 import { toast } from "sonner";
 
 /**
- * Design: Modern & Accessible
+ * Design: Modern & Accessible - Desktop Only
  * User profile and account settings
  */
 
@@ -36,99 +36,107 @@ export default function Profile() {
   };
 
   return (
-    <MobileLayout activeTab="profile">
-      <div className="pb-20">
-        {/* Header */}
-        <div className="bg-gradient-to-b from-teal-50 to-white p-6">
-          <div className="flex gap-4 items-start">
-            <div className="w-16 h-16 bg-gradient-to-br from-teal-200 to-teal-400 rounded-full flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
-              {userProfile.name.charAt(0)}
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl font-bold text-foreground">{userProfile.name}</h1>
-                {userProfile.verified && (
-                  <div className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
-                    ✓ Verified
+    <DesktopLayout activeTab="profile">
+      <div className="p-8">
+        <h1 className="text-3xl font-bold text-foreground mb-8">My Profile</h1>
+
+        <div className="grid grid-cols-3 gap-8">
+          {/* Left - Profile Info */}
+          <div className="col-span-2">
+            {/* Profile Card */}
+            <Card className="p-8 mb-8">
+              <div className="flex gap-6 items-start mb-8">
+                <div className="w-24 h-24 bg-gradient-to-br from-teal-200 to-teal-400 rounded-full flex items-center justify-center text-white text-4xl font-bold flex-shrink-0">
+                  {userProfile.name.charAt(0)}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h2 className="text-2xl font-bold text-foreground">{userProfile.name}</h2>
+                    {userProfile.verified && (
+                      <div className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+                        ✓ Verified
+                      </div>
+                    )}
                   </div>
-                )}
+                  <p className="text-muted-foreground mb-1">{userProfile.email}</p>
+                  <p className="text-muted-foreground mb-4">{userProfile.phone}</p>
+                  <p className="text-sm text-muted-foreground">{userProfile.joinDate}</p>
+                </div>
               </div>
-              <p className="text-sm text-muted-foreground mt-1">{userProfile.email}</p>
-              <p className="text-sm text-muted-foreground">{userProfile.joinDate}</p>
+
+              {/* Rating */}
+              <div className="p-4 bg-gradient-to-br from-teal-50 to-white rounded-lg border border-teal-200">
+                <p className="text-sm text-muted-foreground mb-2">Your Rating</p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl font-bold text-foreground">{userProfile.rating}</span>
+                    <div className="flex gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <div
+                          key={i}
+                          className={`w-3 h-3 rounded-full ${
+                            i < Math.floor(userProfile.rating) ? "bg-yellow-400" : "bg-gray-300"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <span className="text-muted-foreground">({userProfile.reviews} reviews)</span>
+                </div>
+              </div>
+            </Card>
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              <Card className="p-6 text-center">
+                <p className="text-3xl font-bold text-primary">12</p>
+                <p className="text-sm text-muted-foreground mt-2">Requests Completed</p>
+              </Card>
+              <Card className="p-6 text-center">
+                <p className="text-3xl font-bold text-primary">8</p>
+                <p className="text-sm text-muted-foreground mt-2">Active Requests</p>
+              </Card>
+              <Card className="p-6 text-center">
+                <p className="text-3xl font-bold text-primary">€1,560</p>
+                <p className="text-sm text-muted-foreground mt-2">Total Earnings</p>
+              </Card>
             </div>
           </div>
 
-          {/* Rating */}
-          <div className="mt-4 p-3 bg-white rounded-lg border border-border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Your Rating</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-2xl font-bold text-foreground">{userProfile.rating}</span>
-                  <span className="text-sm text-muted-foreground">({userProfile.reviews} reviews)</span>
-                </div>
+          {/* Right - Settings */}
+          <div>
+            <Card className="p-6">
+              <h3 className="font-bold text-foreground mb-4">Settings</h3>
+              <div className="space-y-2">
+                {menuItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.label}
+                      onClick={item.action}
+                      className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition border border-transparent hover:border-border"
+                    >
+                      <Icon size={18} className="text-primary flex-shrink-0" />
+                      <span className="font-medium text-foreground text-sm">{item.label}</span>
+                    </button>
+                  );
+                })}
               </div>
-              <div className="flex gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <div
-                    key={i}
-                    className={`w-2 h-2 rounded-full ${
-                      i < Math.floor(userProfile.rating) ? "bg-yellow-400" : "bg-gray-300"
-                    }`}
-                  />
-                ))}
+
+              {/* Logout */}
+              <div className="mt-6 pt-6 border-t border-border">
+                <Button
+                  onClick={handleLogout}
+                  className="w-full bg-red-500 text-white py-2 rounded-lg font-medium hover:bg-red-600 transition flex items-center justify-center gap-2"
+                >
+                  <LogOut size={16} />
+                  Logout
+                </Button>
               </div>
-            </div>
+            </Card>
           </div>
-        </div>
-
-        {/* Stats */}
-        <div className="px-4 py-6 grid grid-cols-3 gap-3">
-          <Card className="p-4 text-center">
-            <p className="text-2xl font-bold text-primary">12</p>
-            <p className="text-xs text-muted-foreground mt-1">Requests Completed</p>
-          </Card>
-          <Card className="p-4 text-center">
-            <p className="text-2xl font-bold text-primary">8</p>
-            <p className="text-xs text-muted-foreground mt-1">Active Requests</p>
-          </Card>
-          <Card className="p-4 text-center">
-            <p className="text-2xl font-bold text-primary">156</p>
-            <p className="text-xs text-muted-foreground mt-1">Total Earnings</p>
-          </Card>
-        </div>
-
-        {/* Menu Items */}
-        <div className="px-4 py-6 space-y-2">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.label}
-                onClick={item.action}
-                className="w-full flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition border border-transparent hover:border-border"
-              >
-                <div className="flex items-center gap-3">
-                  <Icon size={20} className="text-primary" />
-                  <span className="font-medium text-foreground">{item.label}</span>
-                </div>
-                <ChevronRight size={20} className="text-muted-foreground" />
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Logout Button */}
-        <div className="px-4 py-6">
-          <Button
-            onClick={handleLogout}
-            className="w-full bg-red-500 text-white py-3 rounded-lg font-medium hover:bg-red-600 transition flex items-center justify-center gap-2"
-          >
-            <LogOut size={18} />
-            Logout
-          </Button>
         </div>
       </div>
-    </MobileLayout>
+    </DesktopLayout>
   );
 }
