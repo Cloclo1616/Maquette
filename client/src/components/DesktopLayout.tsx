@@ -1,4 +1,4 @@
-import { Home, Search, Plus, MessageSquare, User, LogOut, Settings, Bell } from "lucide-react";
+import { Home, Search, Plus, MessageSquare, User, LogOut, Settings, Bell, Map, Gift } from "lucide-react";
 import { useLocation } from "wouter";
 import { ReactNode } from "react";
 
@@ -9,7 +9,7 @@ import { ReactNode } from "react";
 
 interface DesktopLayoutProps {
   children: ReactNode;
-  activeTab: "home" | "search" | "create" | "messages" | "profile";
+  activeTab: "home" | "search" | "create" | "messages" | "profile" | "map" | "rewards";
 }
 
 export default function DesktopLayout({ children, activeTab }: DesktopLayoutProps) {
@@ -18,8 +18,10 @@ export default function DesktopLayout({ children, activeTab }: DesktopLayoutProp
   const mainMenuItems = [
     { id: "home", label: "Home", icon: Home, path: "/" },
     { id: "search", label: "Search", icon: Search, path: "/search" },
+    { id: "map", label: "Map", icon: Map, path: "/map" },
     { id: "create", label: "Create Request", icon: Plus, path: "/create-request" },
     { id: "messages", label: "Messages", icon: MessageSquare, path: "/messages" },
+    { id: "rewards", label: "Rewards", icon: Gift, path: "/rewards" },
     { id: "profile", label: "Profile", icon: User, path: "/profile" },
   ];
 

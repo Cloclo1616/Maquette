@@ -11,6 +11,8 @@ import MessagesDesktop from "./pages/MessagesDesktop";
 import Profile from "./pages/Profile";
 import ProviderProfile from "./pages/ProviderProfile";
 import ChatDetail from "./pages/ChatDetail";
+import MapView from "./pages/MapView";
+import Rewards from "./pages/Rewards";
 
 /**
  * Design Philosophy: Modern & Accessible - Desktop Only
@@ -25,9 +27,11 @@ function Router() {
     <Switch>
       <Route path={"/"} component={HomeDesktop} />
       <Route path={"/search"} component={SearchDesktop} />
+      <Route path={"/map"} component={MapView} />
       <Route path={"/create-request"} component={CreateRequest} />
       <Route path={"/messages"} component={MessagesDesktop} />
       <Route path={"/messages/:id"} component={ChatDetail} />
+      <Route path={"/rewards"} component={Rewards} />
       <Route path={"/profile"} component={Profile} />
       <Route path={"/provider/:id"} component={ProviderProfile} />
       <Route path={"/404"} component={NotFound} />
