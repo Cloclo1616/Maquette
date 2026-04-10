@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { MapPin, Navigation, Filter, X } from "lucide-react";
 import { useLocation } from "wouter";
 import DesktopLayout from "@/components/DesktopLayout";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 
 /**
@@ -89,7 +89,8 @@ export default function MapView() {
 
   const handleNavigate = () => {
     if (selectedRequest) {
-      navigate(`/request/${selectedRequest}`);
+      // Navigate to create request with pre-filled data
+      navigate("/create-request");
     }
   };
 
@@ -288,7 +289,7 @@ export default function MapView() {
                   onClick={handleNavigate}
                   className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-teal-700 transition"
                 >
-                  View Full Details & Respond
+                  Respond to Request
                 </Button>
               </Card>
             )}
